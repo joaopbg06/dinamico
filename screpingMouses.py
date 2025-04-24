@@ -27,23 +27,21 @@ import time
 #uso para tratamento de exceção
 from selenium.common.exceptions import TimeoutException
 
-#definir o caminho do chromeDriver
-chrome_driver_path = "C:\Program Files\chromedriver-win64\chromedriver.exe"
 
-#configuração do WebDriver
+chrome_driver_path = "C:\Program Files\chromedriver-win64\chromedriver.exe"
 service = Service(chrome_driver_path) #navegador controlado pelo Selenium
 options = webdriver.ChromeOptions() #configurar as opções do navegador
 options.add_argument('--disable-gpu') #evita possíveis erros gráficos
 options.add_argument('--window-size=1920,1080') #defini uma resolução fixa
 options.add_argument('--headless') # ativa o modo headless (sem abrir o navegador)
 
-#inicialização do WebDriver
+
 driver = webdriver.Chrome(service=service, options=options)
 
-#URL inicial
+
 url_base = 'https://www.kabum.com.br/perifericos/-mouse-gamer'
 driver.get(url_base)
-time.sleep(5) # espera 5 segundos para a página carregar
+time.sleep(5) #
 
 
 dic_produtos = {"nome":[], 'preco':[], 'parcelas':[]}
@@ -54,10 +52,6 @@ while True:
     print(f"\n Coletando dados da página {pagina}...")
 
     try:
-        #WebDriverWait(driver,10): espera 10 segundos
-        #until: espera até ser verdadeiro
-        # ec.presence_of_all_elements_located: verificas todos os elementos "productCard"
-        #By.CLASS_NAME  indica que a busca sera pela a class
         WebDriverWait(driver, 10).until(
             ec.presence_of_all_elements_located((By.CLASS_NAME, "productCard"))
         )
@@ -81,7 +75,6 @@ while True:
         except Exception:
             print('Erro ao coletar dados: ', Exception)
 
-# Encontrar Botão da proxima página
 
     try:
         botao_proximo = WebDriverWait(driver, 5).until(
@@ -92,7 +85,7 @@ while True:
             driver.execute_script("arguments[0].scrollIntoView();", botao_proximo)
             time.sleep(1)
 
-            # Clicar no botão
+
             driver.execute_script("arguments[0].click();", botao_proximo)
             pagina += 1
             print(f"Indo para a página {pagina}")
@@ -106,7 +99,6 @@ while True:
         print('Erro ao tentear avançar para a proxima página', e)
         break
 
-# Fechar o navegador
 driver.quit()
 
 df = pd.DataFrame(dic_produtos)
