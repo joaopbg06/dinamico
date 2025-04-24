@@ -41,7 +41,7 @@ driver = webdriver.Chrome(service=service, options=options)
 
 url_base = 'https://www.kabum.com.br/perifericos/-mouse-gamer'
 driver.get(url_base)
-time.sleep(5) #
+time.sleep(5) 
 
 
 dic_produtos = {"nome":[], 'preco':[], 'parcelas':[]}
